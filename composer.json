@@ -52,7 +52,7 @@
     ]
   },
   "extra": {
-    "bootstrap": "rootlocal\\widgets\\select2\\Bootstrap",
+    "bootstrap": "rootlocal\\widgets\\select2\\widgets\\Bootstrap",
     "writable": [
       "tests/app/runtume",
       "tests/app/web/assets"
