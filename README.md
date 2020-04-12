@@ -1,6 +1,10 @@
 yii2-select2
 ============
 
+Yii2 Select2 widget  
+
+[![Latest Stable Version](https://img.shields.io/packagist/v/rootlocal/yii2-select2.svg)](https://packagist.org/packages/rootlocal/yii2-select2)
+
 * [Source code](https://github.com/rootlocal/yii2-select2)
 
 ## Install
