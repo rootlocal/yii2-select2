@@ -43,7 +43,7 @@
   },
   "autoload": {
     "psr-4": {
-      "rootlocal\\select2\\widgets\\": "src/"
+      "rootlocal\\widgets\\select2\\": "src/"
     }
   },
   "scripts": {
@@ -52,7 +52,7 @@
     ]
   },
   "extra": {
-    "bootstrap": "rootlocal\\widgets\\select2\\widgets\\Bootstrap",
+    "bootstrap": "rootlocal\\widgets\\select2\\Bootstrap",
     "writable": [
       "tests/app/runtume",
       "tests/app/web/assets"
