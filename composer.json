@@ -1,0 +1,68 @@
+{
+  "name": "rootlocal/yii2-select2",
+  "description": "Yii2 Select2 widget",
+  "keywords": [
+    "yii2",
+    "extension",
+    "widget",
+    "select2"
+  ],
+  "homepage": "https://github.com/rootlocal/yii2-select2",
+  "type": "yii2-extension",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/rootlocal/yii2-select2/issues",
+    "source": "https://github.com/rootlocal/yii2-select2"
+  },
+  "authors": [
+    {
+      "name": "Alexander Zakharov",
+      "email": "sys@eml.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "yiisoft/yii2": "~2.0.14",
+    "select2/select2": ">=4.0.0",
+    "bower-asset/select2-theme-bootstrap4": "dev-master"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.1.0",
+    "yiisoft/yii2-faker": "~2.0.0",
+    "codeception/codeception": "^4.0",
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-yii2": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/verify": "~0.5.0 || ~1.1.0",
+    "symfony/browser-kit": ">=2.7 <=4.2.4"
+  },
+  "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "rootlocal\\select2\\widgets\\": "src/"
+    }
+  },
+  "scripts": {
+    "post-create-project-cmd": [
+      "yii\\composer\\Installer::setPermission"
+    ]
+  },
+  "extra": {
+    "bootstrap": "rootlocal\\widgets\\select2\\Bootstrap",
+    "writable": [
+      "tests/app/runtume",
+      "tests/app/web/assets"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
