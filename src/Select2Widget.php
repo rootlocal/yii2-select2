@@ -55,8 +55,7 @@ class Select2Widget extends InputWidget
      */
     public $ajax;
     /**
-     * @see \yii\helpers\BaseArrayHelper::map()
-     * @var array
+     * @var array|\Closure
      */
     public $items = [];
     /** @var string */
@@ -74,6 +73,10 @@ class Select2Widget extends InputWidget
 
         if ($this->language === null) {
             $this->language = Yii::$app->language;
+        }
+
+        if ($this->hasModel() && $this->items instanceof \Closure){
+            $this->items = call_user_func($this->items, $this->model, $this->attribute);
         }
 
         if ($this->prompt !== null) {
