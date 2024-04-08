@@ -2,6 +2,7 @@
 
 namespace rootlocal\widgets\select2;
 
+use Closure;
 use yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -26,47 +27,45 @@ class Select2Widget extends InputWidget
     public const PLUGIN_NAME = 'select2';
 
     /** @var string */
-    public $theme = self::THEME_DEFAULT;
-    /** @var string Language code */
-    public $language;
-    /** @var string A placeholder value can be defined and will be displayed until a selection is made */
-    public $placeholder;
-    /*** @var boolean Multiple select boxes */
-    public $multiple;
-    /** @var boolean Tagging support */
-    public $tags;
+    public string $theme = self::THEME_DEFAULT;
+    /** @var null|string Language code */
+    public ?string $language = null;
+    /** @var null|string A placeholder value can be defined and will be displayed until a selection is made */
+    public ?string $placeholder;
+    /*** @var null|boolean Multiple select boxes */
+    public ?bool $multiple = null;
+    /** @var null|boolean Tagging support */
+    public ?bool $tags = null;
     /** @var string[] the JavaScript event handlers. */
-    public $events = [];
+    public array $events = [];
     /**
      * @link https://select2.github.io/options.html
      * @var array
      */
-    public $settings = [];
+    public array $settings = [];
     /**
      * Array data
      * @example [['id'=>1, 'text'=>'enhancement'], ['id'=>2, 'text'=>'bug']]
-     * @var array
+     * @var null|array
      */
-    public $data;
+    public ?array $data = null;
     /**
      * You can use Select2Action to provide AJAX data
-     * @see \yii\helpers\BaseUrl::to()
      * @var array|string
      */
     public $ajax;
     /**
-     * @see \yii\helpers\BaseArrayHelper::map()
-     * @var array
+     * @var array|Closure
      */
     public $items = [];
-    /** @var string */
-    public $prompt;
+    /** @var null|string */
+    public ?string $prompt = null;
 
-    /** @var string */
-    private $_hash;
+    private ?string $_hash = null;
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function init()
     {
@@ -74,6 +73,14 @@ class Select2Widget extends InputWidget
 
         if ($this->language === null) {
             $this->language = Yii::$app->language;
+        }
+
+        if ($this->items instanceof Closure) {
+            if ($this->hasModel()) {
+                $this->items = call_user_func($this->items, $this->model, $this->attribute);
+            } else {
+                $this->items = call_user_func($this->items);
+            }
         }
 
         if ($this->prompt !== null) {
@@ -94,21 +101,21 @@ class Select2Widget extends InputWidget
     {
         $this->settings['width'] = '100%';
 
-        if ($this->language !== null) {
+        if (!empty($this->language)) {
             $this->settings['language'] = $this->language;
         }
 
-        if ($this->theme !== null) {
+        if (!empty($this->theme)) {
             $this->settings['theme'] = $this->theme;
         }
 
-        if ($this->placeholder !== null) {
+        if (!empty($this->placeholder)) {
             $this->settings['placeholder'] = $this->placeholder;
         }
 
         $js = Json::htmlEncode($this->settings);
 
-        if ($this->events !== null) {
+        if (!empty($this->events)) {
             foreach ($this->events as $event => $handler) {
                 $js .= '.on("' . $event . '", ' . new JsExpression($handler) . ')';
             }
@@ -150,8 +157,7 @@ class Select2Widget extends InputWidget
 
             if ($this->hasModel()) {
                 $name =
-                    isset($this->options['name']) ? $this->options['name']
-                        : Html::getInputName($this->model, $this->attribute);
+                    $this->options['name'] ?? Html::getInputName($this->model, $this->attribute);
             } else {
                 $name = $this->name;
             }
@@ -197,7 +203,7 @@ class Select2Widget extends InputWidget
     /**
      * @return string
      */
-    public function renderWidget()
+    public function renderWidget(): string
     {
         if ($this->hasModel()) {
             return Html::activeDropDownList($this->model, $this->attribute, $this->items, $this->options);
@@ -210,7 +216,7 @@ class Select2Widget extends InputWidget
      * {@inheritdoc}
      * @return string
      */
-    public function run()
+    public function run(): string
     {
         return $this->renderWidget();
     }
